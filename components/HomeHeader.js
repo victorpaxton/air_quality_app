@@ -1,4 +1,6 @@
 import { View, Text, Image, TextInput } from 'react-native';
+import { Foundation } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
 import { COLORS, FONTS, SIZES, assets } from '../constants';
 
@@ -15,8 +17,18 @@ const HomeHeader = ({ onSearch }) => {
         <Image
           source={assets.logo}
           resizeMode="contain"
-          style={{ width: 90, height: 25 }}
+          style={{ width: 60, height: 60 }}
         />
+
+        <Text
+          style={{
+            fontFamily: FONTS.bold,
+            fontSize: SIZES.extraLarge,
+            color: COLORS.white,
+          }}
+        >
+          Smart Environment
+        </Text>
 
         <View style={{ width: 45, height: 45 }}>
           <Image
@@ -38,26 +50,40 @@ const HomeHeader = ({ onSearch }) => {
         </View>
       </View>
 
-      <View style={{ marginVertical: SIZES.font }}>
+      <View style={{ marginVertical: SIZES.large }}>
         <Text
           style={{
             fontFamily: FONTS.regular,
-            fontSize: SIZES.small,
-            color: COLORS.white,
-          }}
-        >
-          Hello, Victoria 👋
-        </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.bold,
             fontSize: SIZES.large,
             color: COLORS.white,
-            marginTop: SIZES.base / 2,
+            textAlign: 'center',
           }}
         >
-          Let's find a masterpiece!
+          Hello, Bogdan 👋
         </Text>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#f9d16b',
+            borderRadius: SIZES.extraLarge,
+            minwidth: 120,
+            padding: SIZES.small,
+            marginTop: SIZES.extraLarge,
+          }}
+          onPress={() => {}}
+        >
+          <Text
+            style={{
+              fontFamily: FONTS.semiBold,
+              fontSize: SIZES.extraLarge,
+              color: COLORS.primary,
+              textAlign: 'center',
+            }}
+          >
+            <Foundation name="home" size={32} color="black" />
+            <Text>{'  '}Your Home</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={{ marginTop: SIZES.font }}>
@@ -78,11 +104,24 @@ const HomeHeader = ({ onSearch }) => {
             style={{ width: 20, height: 20, marginRight: SIZES.base }}
           />
           <TextInput
-            placeholder="Search NFTs"
+            placeholder="Search for places"
             style={{ flex: 1 }}
             onChangeText={onSearch}
           />
         </View>
+      </View>
+
+      <View>
+        <Text
+          style={{
+            fontFamily: FONTS.bold,
+            fontSize: SIZES.extraLarge,
+            color: COLORS.white,
+            marginTop: SIZES.extraLarge,
+          }}
+        >
+          Air Quality
+        </Text>
       </View>
     </View>
   );
