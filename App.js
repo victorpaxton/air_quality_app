@@ -8,7 +8,7 @@ import { Home, Report, AirMap, Location } from './screens';
 
 import { Entypo, Feather, Foundation } from '@expo/vector-icons';
 
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,6 +81,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar animated={true} barStyle="light-content" />
       <MyTabs />
     </NavigationContainer>
   );
