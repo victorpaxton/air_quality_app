@@ -1,5 +1,6 @@
 import Home from './Home';
-import AirQuality from './AirQuality';
+import Report from './Report';
 import AirMap from './AirMap';
+import Location from './Location';
 
-export { Home, AirQuality, AirMap };
+export { Home, Report, AirMap, Location };

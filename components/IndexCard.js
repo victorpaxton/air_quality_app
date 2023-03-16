@@ -1,65 +1,73 @@
-import { View, Image, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text } from 'react-native';
 
-import { COLORS, SIZES, SHADOWS, assets } from '../constants';
+import { COLORS, SIZES, SHADOWS, FONTS } from '../constants';
 
-import { CircleButton, RectButton } from './Button';
-import { SubInfo, EthPrice, IndexTitle } from './SubInfo';
+import { Donut } from 'react-native-donut-chart';
 
-const IndexCard = ({ data }) => {
-  const navigation = useNavigation();
-
+const IndexCard = ({ title, subtitle, value, colors }) => {
   return (
     <View
       style={{
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.secondary,
         borderRadius: SIZES.font,
-        marginBottom: SIZES.extraLarge,
-        margin: SIZES.base,
+        margin: SIZES.medium,
+        paddingVertical: SIZES.medium,
+        paddingHorizontal: SIZES.extraLarge,
+
         ...SHADOWS.dark,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
-      <View style={{ width: '100%', height: 250 }}>
-        <Image
-          source={data.image}
-          resizeMode="cover"
+      <View style={{ width: '60%', gap: 6 }}>
+        <Text
           style={{
-            width: '100%',
-            height: '100%',
-            borderTopLeftRadius: SIZES.font,
-            borderTopRightRadius: SIZES.font,
-          }}
-        />
-
-        <CircleButton imgUrl={assets.heart} right={10} top={10} />
-      </View>
-
-      <SubInfo />
-
-      <View style={{ width: '100%', padding: SIZES.font }}>
-        <IndexTitle
-          title={data.name}
-          subTitle={data.creator}
-          titleSize={SIZES.large}
-          subTitleSize={SIZES.small}
-        />
-
-        <View
-          style={{
-            marginTop: SIZES.font,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            fontSize: SIZES.large,
+            textTransform: 'uppercase',
+            fontFamily: FONTS.semiBold,
+            color: COLORS.white,
           }}
         >
-          <EthPrice price={data.price} />
-          <RectButton
-            minWidth={120}
-            fontSize={SIZES.font}
-            handlePress={() => navigation.navigate('AirQuality', { data })}
-          />
-        </View>
+          {title}
+          {'  '}
+          <Text
+            style={{
+              fontSize: SIZES.font,
+              textTransform: 'capitalize',
+              fontFamily: FONTS.regular,
+            }}
+          >
+            {subtitle}
+          </Text>
+        </Text>
+        <Text
+          style={{
+            fontSize: SIZES.extraLarge,
+            fontFamily: FONTS.bold,
+            color: COLORS.white,
+          }}
+        >
+          Unhealthy
+        </Text>
+        <Text
+          style={{
+            fontSize: SIZES.medium,
+            fontFamily: FONTS.regular,
+            color: COLORS.white,
+          }}
+        >
+          {value} &#181;g/m3
+        </Text>
       </View>
+
+      <Donut
+        data={[
+          { value: 70, color: colors[0] },
+          { value: 30, color: colors[1] },
+        ]}
+        radius={40}
+      />
     </View>
   );
 };

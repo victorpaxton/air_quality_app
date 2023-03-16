@@ -1,13 +1,13 @@
 import { View, Text, Dimensions } from 'react-native';
 // import { LineChart } from 'react-native-chart-kit';
 
-const AirMap = () => {
+const DayChart = () => {
   return (
     <View>
       <Text>Bezier Line Chart</Text>
       {/* <LineChart
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'], install react-native-svg@13.4.0
+          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
           datasets: [
             {
               data: [
@@ -52,4 +52,4 @@ const AirMap = () => {
   );
 };
 
-export default AirMap;
+export default DayChart;

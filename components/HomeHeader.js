@@ -4,7 +4,12 @@ import { TouchableOpacity } from 'react-native';
 
 import { COLORS, FONTS, SIZES, assets } from '../constants';
 
+import { AirData } from '../constants/dump';
+import { useNavigation } from '@react-navigation/native';
+
 const HomeHeader = ({ onSearch }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={{ backgroundColor: COLORS.primary, padding: SIZES.font }}>
       <View
@@ -70,7 +75,7 @@ const HomeHeader = ({ onSearch }) => {
             padding: SIZES.small,
             marginTop: SIZES.extraLarge,
           }}
-          onPress={() => {}}
+          onPress={() => navigation.navigate('Location')}
         >
           <Text
             style={{
@@ -82,6 +87,18 @@ const HomeHeader = ({ onSearch }) => {
           >
             <Foundation name="home" size={32} color="black" />
             <Text>{'  '}Your Home</Text>
+          </Text>
+
+          <Text
+            style={{
+              fontFamily: FONTS.regular,
+              fontSize: SIZES.large,
+              color: COLORS.primary,
+              textAlign: 'center',
+              marginTop: 5,
+            }}
+          >
+            {AirData.city_name} - {AirData.country_code}
           </Text>
         </TouchableOpacity>
       </View>
@@ -109,19 +126,6 @@ const HomeHeader = ({ onSearch }) => {
             onChangeText={onSearch}
           />
         </View>
-      </View>
-
-      <View>
-        <Text
-          style={{
-            fontFamily: FONTS.bold,
-            fontSize: SIZES.extraLarge,
-            color: COLORS.white,
-            marginTop: SIZES.extraLarge,
-          }}
-        >
-          Air Quality
-        </Text>
       </View>
     </View>
   );
