@@ -22,10 +22,10 @@ const HomeHeader = ({ onSearch }) => {
         <Image
           source={assets.logo}
           resizeMode="contain"
-          style={{ width: 60, height: 60 }}
+          style={{ width: 130, height: 70 }}
         />
 
-        <Text
+        {/* <Text
           style={{
             fontFamily: FONTS.bold,
             fontSize: SIZES.extraLarge,
@@ -33,13 +33,13 @@ const HomeHeader = ({ onSearch }) => {
           }}
         >
           Smart Environment
-        </Text>
+        </Text> */}
 
         <View style={{ width: 45, height: 45 }}>
           <Image
-            source={assets.person01}
+            source={assets.avatar}
             resizeMode="contain"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', borderRadius: 50 }}
           />
           <Image
             source={assets.badge}
