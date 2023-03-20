@@ -6,7 +6,7 @@ const Location = () => {
     <View style={{ flex: 1 }}>
       <View>
         <Text>Welcome to React Native!</Text>
-        <Text>Location</Text>
+        <Text>I am testing test-branch!</Text>
       </View>
     </View>
   );
