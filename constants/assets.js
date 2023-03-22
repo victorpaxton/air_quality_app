@@ -15,6 +15,13 @@ import unhealthy from '../assets/images/unhealthy.png';
 import very_unhealthy from '../assets/images/very-unhealthy.png';
 import hazardous from '../assets/images/hazardous.png';
 
+import co from '../assets/images/co.png';
+import no2 from '../assets/images/no2.png';
+import pm10 from '../assets/images/pm10.png';
+import pm25 from '../assets/images/pm2.5.png';
+import so2 from '../assets/images/so2.png';
+import o3 from '../assets/images/o3.png';
+
 export default {
   badge,
   eth,
@@ -29,4 +36,10 @@ export default {
   unhealthy,
   very_unhealthy,
   hazardous,
+  co,
+  no2,
+  pm10,
+  o3,
+  so2,
+  pm25,
 };

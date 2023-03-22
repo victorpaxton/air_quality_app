@@ -187,7 +187,7 @@ const AQICard = () => {
         </View>
       </View>
 
-      <AQIBar value={value} />
+      <AQIBar value={value} color={bgColor()} />
     </View>
   );
 };

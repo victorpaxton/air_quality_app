@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { AirData } from '../constants/dump';
-import { COLORS, FONTS, SIZES } from '../constants';
+import { COLORS, FONTS, SIZES, assets } from '../constants';
+import { ActivityIndicator } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
-import { ActivityIndicator } from 'react-native';
 
 import AQICard from './AQICard';
 
+import { AirData } from '../constants/dump';
+import PollutantCard from './PollutantCard';
+
 const AirIndex = () => {
+  const data = AirData.data[0];
+
   const isLoading = false;
   const [showFull, setShowFull] = useState(false);
 
@@ -38,7 +42,11 @@ const AirIndex = () => {
           Air Quality
         </Text>
 
-        <TouchableOpacity onPress={() => setShowFull(!showFull)}>
+        <TouchableOpacity
+          onPress={() => {
+            setShowFull(!showFull);
+          }}
+        >
           {showFull ? (
             <Text
               style={{
@@ -69,7 +77,63 @@ const AirIndex = () => {
 
       {showFull ? (
         <View>
-          <Text style={{ color: 'white' }}>abc</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              // width: '100%',
+              marginHorizontal: SIZES.large,
+              marginBottom: 20,
+            }}
+          >
+            <PollutantCard
+              image={assets.pm25}
+              title="Particles &lt; 2.5 &#181;m"
+              value={data.pm25}
+              unit="&#181;g/m3"
+            />
+            <PollutantCard
+              image={assets.pm10}
+              title="Particles &lt; 10 &#181;m"
+              value={data.pm10}
+              unit="&#181;g/m3"
+            />
+            <PollutantCard
+              image={assets.co}
+              title="Carbon Dioxide"
+              value={data.co}
+              unit="ppm"
+            />
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              // width: '100%',
+              marginHorizontal: SIZES.large,
+              marginBottom: 20,
+            }}
+          >
+            <PollutantCard
+              image={assets.so2}
+              title="Sulfur Dioxide"
+              value={data.so2}
+              unit="&#181;g/m3"
+            />
+            <PollutantCard
+              image={assets.no2}
+              title="Nitrogen Dioxide"
+              value={data.no2}
+              unit="&#181;g/m3"
+            />
+            <PollutantCard
+              image={assets.o3}
+              title="Ozone"
+              value={data.o3}
+              unit="&#181;g/m3"
+            />
+          </View>
         </View>
       ) : null}
     </View>
