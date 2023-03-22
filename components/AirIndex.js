@@ -3,19 +3,21 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { AirData } from '../constants/dump';
 import { COLORS, FONTS, SIZES } from '../constants';
 
-import IndexCard from './IndexCard';
-
 import { AntDesign } from '@expo/vector-icons';
 import { ActivityIndicator } from 'react-native';
+
+import AQICard from './AQICard';
 
 const AirIndex = () => {
   const isLoading = false;
   const [showFull, setShowFull] = useState(false);
 
-  const data = AirData.data[1];
-
   return isLoading ? (
-    <ActivityIndicator size="large" color="gray" />
+    <ActivityIndicator
+      size="large"
+      color="gray"
+      style={{ paddingTop: '40%' }}
+    />
   ) : (
     <View>
       <View
@@ -63,51 +65,11 @@ const AirIndex = () => {
         </TouchableOpacity>
       </View>
 
-      <IndexCard
-        title={'AQI'}
-        subtitle="(Air quality index)"
-        value={Object.values(data)[0]}
-        colors={['#4b4b4b', '#439e5a']}
-      />
+      <AQICard />
 
       {showFull ? (
         <View>
-          <IndexCard
-            title={'CO'}
-            subtitle="(Carbon monoxide)"
-            value={Object.values(data)[1]}
-            colors={['#4b4b4b', '#e9685c']}
-          />
-          <IndexCard
-            title={'NO2'}
-            subtitle="(Nitrogen dioxide)"
-            value={Object.values(data)[3]}
-            colors={['#4b4b4b', '#e1bd4e']}
-          />
-          <IndexCard
-            title={'O3'}
-            subtitle="(ozone)"
-            value={Object.values(data)[4]}
-            colors={['#4b4b4b', '#e9685c']}
-          />
-          <IndexCard
-            title={'PM10'}
-            subtitle="(Particles &lt; 10&#181;m)"
-            value={Object.values(data)[5]}
-            colors={['#4b4b4b', '#439e5a']}
-          />
-          <IndexCard
-            title={'PM2.5'}
-            subtitle="(Particles &lt; 2.5&#181;m)"
-            value={Object.values(data)[6]}
-            colors={['#4b4b4b', '#e1bd4e']}
-          />
-          <IndexCard
-            title={'SO2'}
-            subtitle="(sulfur dioxide)"
-            value={Object.values(data)[7]}
-            colors={['#4b4b4b', '#e9685c']}
-          />
+          <Text style={{ color: 'white' }}>abc</Text>
         </View>
       ) : null}
     </View>

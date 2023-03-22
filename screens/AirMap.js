@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, SafeAreaView } from 'react-native';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 // import { LineChart } from 'react-native-chart-kit';
 
@@ -62,12 +62,11 @@ const AirMap = () => {
           zoom={10}
           center={{
             lat: -33.865143,
-            lng: 151.209900,
+            lng: 151.2099,
           }}
         />
       </LoadScript>
     </View>
-    
   );
 };
 

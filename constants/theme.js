@@ -4,6 +4,13 @@ export const COLORS = {
 
   white: '#FFF',
   gray: '#74858C',
+
+  good: '#76d350',
+  moderate: '#ffe030',
+  sensitive: '#fc7d27',
+  unhealthy: '#ea1b1b',
+  very_unhealthy: '#b24691',
+  hazardous: '#994444',
 };
 
 export const SIZES = {
