@@ -1,5 +1,9 @@
+import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 // import { LineChart } from 'react-native-chart-kit';
+
+const GOOGLE_MAP_API_KEY = 'AIzaSyCACxPZK1Km-2Z_eiDX-3mae10hjnd19Q0';
 
 const AirMap = () => {
   return (
@@ -7,7 +11,7 @@ const AirMap = () => {
       <Text>Bezier Line Chart</Text>
       {/* <LineChart
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'], install react-native-svg@13.4.0
+          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
           datasets: [
             {
               data: [
@@ -48,7 +52,22 @@ const AirMap = () => {
           borderRadius: 16,
         }}
       /> */}
+      <LoadScript googleMapsApiKey={GOOGLE_MAP_API_KEY}>
+        <GoogleMap
+          id="map"
+          mapContainerStyle={{
+            height: '400px',
+            width: '400px',
+          }}
+          zoom={10}
+          center={{
+            lat: -33.865143,
+            lng: 151.209900,
+          }}
+        />
+      </LoadScript>
     </View>
+    
   );
 };
 
