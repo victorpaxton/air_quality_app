@@ -10,9 +10,9 @@ import { ActivityIndicator } from 'react-native';
 
 const AirIndex = () => {
   const isLoading = false;
-  const [showFull, setShowFull] = useState('false');
+  const [showFull, setShowFull] = useState(false);
 
-  const data = AirData.data[0];
+  const data = AirData.data[1];
 
   return isLoading ? (
     <ActivityIndicator size="large" color="gray" />

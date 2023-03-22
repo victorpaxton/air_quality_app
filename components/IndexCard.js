@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 
 import { COLORS, SIZES, SHADOWS, FONTS } from '../constants';
 
-import { Donut } from 'react-native-donut-chart';
+import { Face, AirStatus } from '../components';
 
 const IndexCard = ({ title, subtitle, value, colors }) => {
   return (
@@ -20,7 +20,7 @@ const IndexCard = ({ title, subtitle, value, colors }) => {
         justifyContent: 'space-between',
       }}
     >
-      <View style={{ width: '60%', gap: 6 }}>
+      <View style={{ width: '50%', gap: 6 }}>
         <Text
           style={{
             fontSize: SIZES.large,
@@ -48,26 +48,32 @@ const IndexCard = ({ title, subtitle, value, colors }) => {
             color: COLORS.white,
           }}
         >
-          Unhealthy
+          <AirStatus value={value} />
         </Text>
-        <Text
+        <View
           style={{
-            fontSize: SIZES.medium,
-            fontFamily: FONTS.regular,
-            color: COLORS.white,
+            backgroundColor: COLORS.gray,
+            width: 80,
+            marginTop: 5,
+            paddingVertical: 8,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            borderRadius: SIZES.font,
           }}
         >
-          {value} &#181;g/m3
-        </Text>
+          <Text
+            style={{
+              fontSize: SIZES.medium,
+              fontFamily: FONTS.medium,
+              color: COLORS.white,
+            }}
+          >
+            {value} &#181;g/m3
+          </Text>
+        </View>
       </View>
 
-      <Donut
-        data={[
-          { value: 70, color: colors[0] },
-          { value: 30, color: colors[1] },
-        ]}
-        radius={40}
-      />
+      <Face value={value} />
     </View>
   );
 };

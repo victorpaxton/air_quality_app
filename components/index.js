@@ -4,10 +4,10 @@ import { CircleButton, RectButton } from './Button.js';
 import DayChart from './DayChart.js';
 import Temperature from './Temperature.js';
 import AirIndex from './AirIndex.js';
-import BottomTab from './BottomTab.js';
+import Face from './Face.js';
+import AirStatus from './AirStatus.js';
 
 export {
-  BottomTab,
   HomeHeader,
   IndexCard,
   AirIndex,
@@ -15,4 +15,6 @@ export {
   RectButton,
   DayChart,
   Temperature,
+  Face,
+  AirStatus,
 };
