@@ -1,5 +1,5 @@
 import { View, Text, Dimensions } from 'react-native';
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SHADOWS, SIZES } from '../constants';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -8,7 +8,7 @@ const AQIBar = ({ value, color }) => {
   const ping = (value * width) / 350;
 
   return (
-    <View style={{ marginVertical: 24 }}>
+    <View style={{ marginVertical: 24, ...SHADOWS.dark }}>
       <AntDesign
         name="caretdown"
         size={16}

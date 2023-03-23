@@ -26,9 +26,6 @@ const AirIndex = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
           margin: SIZES.large,
         }}
       >
@@ -41,36 +38,6 @@ const AirIndex = () => {
         >
           Air Quality
         </Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            setShowFull(!showFull);
-          }}
-        >
-          {showFull ? (
-            <Text
-              style={{
-                fontFamily: FONTS.regular,
-                fontSize: SIZES.medium,
-                color: COLORS.white,
-              }}
-            >
-              Hide all pollutants{'  '}
-              <AntDesign name="upcircleo" size={16} color="white" />
-            </Text>
-          ) : (
-            <Text
-              style={{
-                fontFamily: FONTS.regular,
-                fontSize: SIZES.medium,
-                color: COLORS.white,
-              }}
-            >
-              Show all pollutants{'  '}
-              <AntDesign name="downcircleo" size={16} color="white" />
-            </Text>
-          )}
-        </TouchableOpacity>
       </View>
 
       <Text style={{ color: 'white', textAlign: 'center' }}>
@@ -78,6 +45,41 @@ const AirIndex = () => {
       </Text>
 
       <AQICard />
+
+      <TouchableOpacity
+        style={{
+          paddingBottom: 24,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+        onPress={() => {
+          setShowFull(!showFull);
+        }}
+      >
+        {showFull ? (
+          <Text
+            style={{
+              fontFamily: FONTS.regular,
+              fontSize: SIZES.medium,
+              color: COLORS.white,
+            }}
+          >
+            Hide all pollutants{'  '}
+            <AntDesign name="upcircleo" size={16} color="white" />
+          </Text>
+        ) : (
+          <Text
+            style={{
+              fontFamily: FONTS.regular,
+              fontSize: SIZES.medium,
+              color: COLORS.white,
+            }}
+          >
+            Show all pollutants{'  '}
+            <AntDesign name="downcircleo" size={16} color="white" />
+          </Text>
+        )}
+      </TouchableOpacity>
 
       {showFull ? (
         <View>
