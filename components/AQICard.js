@@ -174,7 +174,7 @@ const AQICard = () => {
           )}
         </View>
         <View style={{ flexDirection: 'row', gap: 8 }}>
-          <Ionicons name="water" size={SIZES.large} color="cyan" />
+          <Ionicons name="water" size={SIZES.large} color={COLORS.primary} />
           <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
             {weather.humidity} %
           </Text>

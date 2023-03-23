@@ -16,7 +16,7 @@ const AirData = {
       ts: 1678892400,
     },
     {
-      aqi: 53,
+      aqi: 43,
       co: 113.3,
       datetime: '2023-03-15:14',
       no2: 8.7,

@@ -8,7 +8,7 @@ const PollutantCard = ({ image, title, value, unit }) => {
       style={{
         width: '30%',
         height: 175,
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 20,
         ...SHADOWS.dark,
         flexDirection: 'column',
@@ -23,7 +23,7 @@ const PollutantCard = ({ image, title, value, unit }) => {
           height: '40%',
           marginTop: 10,
           // add shadows for Android only
-          elevation: 10,
+          // elevation: 10,
 
           // add shadows for iOS only
           shadowColor: 'black',
@@ -43,16 +43,34 @@ const PollutantCard = ({ image, title, value, unit }) => {
         </Text>
       </View>
 
-      <Text
+      <View
         style={{
-          color: COLORS.primary,
-          fontSize: SIZES.large,
-          paddingTop: 10,
-          textAlign: 'center',
+          flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
-        {value} {unit}
-      </Text>
+        <Text
+          style={{
+            color: COLORS.primary,
+            fontSize: SIZES.extraLarge,
+            paddingTop: 10,
+            textAlign: 'center',
+          }}
+        >
+          {value}{' '}
+        </Text>
+
+        <Text
+          style={{
+            color: COLORS.primary,
+            fontSize: SIZES.medium,
+            paddingTop: 10,
+            textAlign: 'center',
+          }}
+        >
+          {unit}
+        </Text>
+      </View>
     </View>
   );
 };

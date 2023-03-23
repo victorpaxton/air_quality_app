@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { COLORS, FONTS, SIZES, assets } from '../constants';
 import { ActivityIndicator } from 'react-native';
 
@@ -23,7 +23,7 @@ const AirIndex = () => {
       style={{ paddingTop: '40%' }}
     />
   ) : (
-    <View>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View
         style={{
           flexDirection: 'row',
@@ -72,6 +72,10 @@ const AirIndex = () => {
           )}
         </TouchableOpacity>
       </View>
+
+      <Text style={{ color: 'white', textAlign: 'center' }}>
+        Last Updated at {data.timestamp_local.substring(11, 16)}.
+      </Text>
 
       <AQICard />
 
@@ -136,7 +140,7 @@ const AirIndex = () => {
           </View>
         </View>
       ) : null}
-    </View>
+    </ScrollView>
   );
 };
 

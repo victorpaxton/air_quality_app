@@ -7,7 +7,7 @@ import { DayChart, HomeHeader, AirIndex } from '../components';
 const Home = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator="false">
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={{ zIndex: 1 }}>
           <HomeHeader />
 
