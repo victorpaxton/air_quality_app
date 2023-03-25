@@ -1,53 +1,52 @@
 import { View, Text, Dimensions } from 'react-native';
-// import { LineChart } from 'react-native-chart-kit';
+import { SIZES, FONTS, COLORS } from '../constants';
+import {
+  ChartDot,
+  ChartPath,
+  ChartPathProvider,
+  monotoneCubicInterpolation,
+} from '@rainbow-me/animated-charts';
 
 const DayChart = () => {
+  const SIZE = Dimensions.get('window').width;
+
+  const data = [
+    { x: 1453075200, y: 1.47 },
+    { x: 1453161600, y: 1.37 },
+    { x: 1453248000, y: 1.53 },
+    { x: 1453334400, y: 1.54 },
+    { x: 1453420800, y: 1.52 },
+    { x: 1453507200, y: 2.03 },
+    { x: 1453593600, y: 2.1 },
+    { x: 1453680000, y: 2.5 },
+    { x: 1453766400, y: 2.3 },
+    { x: 1453852800, y: 2.42 },
+    { x: 1453939200, y: 2.55 },
+    { x: 1454025600, y: 2.41 },
+    { x: 1454112000, y: 2.43 },
+    { x: 1454198400, y: 2.2 },
+  ];
+
+  const points = monotoneCubicInterpolation({ data, range: 40 });
+
   return (
-    <View>
-      <Text>Bezier Line Chart</Text>
-      {/* <LineChart
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
-            },
-          ],
-        }}
-        width={Dimensions.get('window').width} // from react-native
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
-        yAxisInterval={1} // optional, defaults to 1
-        chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: '#ffa726',
-          },
-        }}
-        bezier
+    <View style={{ margin: SIZES.large }}>
+      <Text
         style={{
-          marginVertical: 8,
-          borderRadius: 16,
+          fontFamily: FONTS.bold,
+          fontSize: 28,
+          color: COLORS.white,
         }}
-      /> */}
+      >
+        Today
+      </Text>
+
+      {/* <View style={{ backgroundColor: 'black' }}>
+        <ChartPathProvider data={{ points, smoothingStrategy: 'bezier' }}>
+          <ChartPath height={SIZE / 2} stroke="yellow" width={SIZE} />
+          <ChartDot style={{ backgroundColor: 'blue' }} />
+        </ChartPathProvider>
+      </View> */}
     </View>
   );
 };

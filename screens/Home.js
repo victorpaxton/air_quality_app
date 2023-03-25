@@ -2,7 +2,7 @@ import { View, SafeAreaView, ScrollView } from 'react-native';
 
 import { COLORS } from '../constants';
 
-import { DayChart, HomeHeader, AirIndex } from '../components';
+import { DayChart, HomeHeader, AirIndex, HealthAdvice } from '../components';
 
 const Home = () => {
   return (
@@ -13,7 +13,9 @@ const Home = () => {
 
           <AirIndex />
 
-          {/* <DayChart /> */}
+          <DayChart />
+
+          <HealthAdvice />
         </View>
       </ScrollView>
     </SafeAreaView>
