@@ -7,7 +7,6 @@ import { AntDesign } from '@expo/vector-icons';
 
 import AQICard from './AQICard';
 
-// import { AirData } from '../constants/dump';
 import PollutantCard from './PollutantCard';
 import { currentAirFetch } from '../hook/useFetch';
 
@@ -15,13 +14,6 @@ const AirIndex = () => {
   const { data, isLoading, error } = currentAirFetch();
 
   const [showFull, setShowFull] = useState(false);
-
-  // 2023-03-12T23:00:00
-  const timeStamp = data.timestamp_local;
-  const time = timeStamp.substring(11, 16);
-  const d = timeStamp.substring(8, 10);
-  const m = timeStamp.substring(5, 7);
-  const y = timeStamp.substring(0, 4);
 
   return isLoading ? (
     <>
@@ -73,7 +65,10 @@ const AirIndex = () => {
       </View>
 
       <Text style={{ color: 'white', textAlign: 'center' }}>
-        Last Updated at {time} - {d}/{m}/{y}.
+        Last Updated at {data.timestamp_local.substring(11, 16)} -{' '}
+        {data.timestamp_local.substring(8, 10)}/
+        {data.timestamp_local.substring(5, 7)}/
+        {data.timestamp_local.substring(0, 4)}.
       </Text>
 
       <AQICard value={data.aqi} />

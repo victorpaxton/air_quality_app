@@ -1,14 +1,15 @@
-import { View, Text } from 'react-native';
-import { FocusedStatusBar } from '../components';
+import { View, Text, SafeAreaView } from 'react-native';
+import { COLORS } from '../constants';
 
 const Location = () => {
   return (
-    <View style={{ flex: 1 }}>
-      <View>
-        <Text>Welcome to React Native!</Text>
-        <Text>I am testing test-branch!</Text>
-      </View>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+        <View style={{ zIndex: 1 }}>
+          <Text>abc</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
