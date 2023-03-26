@@ -9,6 +9,8 @@ const PollutantCard = ({ image, title, value, unit }) => {
         width: '30%',
         height: 175,
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderWidth: '1px',
+        borderColor: 'gray',
         borderRadius: SIZES.font,
         ...SHADOWS.dark,
         flexDirection: 'column',

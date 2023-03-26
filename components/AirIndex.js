@@ -7,21 +7,53 @@ import { AntDesign } from '@expo/vector-icons';
 
 import AQICard from './AQICard';
 
-import { AirData } from '../constants/dump';
+// import { AirData } from '../constants/dump';
 import PollutantCard from './PollutantCard';
+import { currentAirFetch } from '../hook/useFetch';
 
 const AirIndex = () => {
-  const data = AirData.data[0];
+  const { data, isLoading, error } = currentAirFetch();
 
-  const isLoading = false;
   const [showFull, setShowFull] = useState(false);
 
+  // 2023-03-12T23:00:00
+  const timeStamp = data.timestamp_local;
+  const time = timeStamp.substring(11, 16);
+  const d = timeStamp.substring(8, 10);
+  const m = timeStamp.substring(5, 7);
+  const y = timeStamp.substring(0, 4);
+
   return isLoading ? (
-    <ActivityIndicator
-      size="large"
-      color="gray"
-      style={{ paddingTop: '40%' }}
-    />
+    <>
+      <ActivityIndicator
+        size="large"
+        color="white"
+        style={{ paddingTop: '20%' }}
+      />
+      <Text
+        style={{
+          color: 'white',
+          textAlign: 'center',
+          paddingTop: 10,
+          paddingBottom: '20%',
+          fontSize: SIZES.large,
+        }}
+      >
+        Loading...
+      </Text>
+    </>
+  ) : error ? (
+    <Text
+      style={{
+        color: 'white',
+        textAlign: 'center',
+        paddingTop: 10,
+        paddingBottom: '20%',
+        fontSize: SIZES.large,
+      }}
+    >
+      Oops, something went wrong!
+    </Text>
   ) : (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -41,10 +73,10 @@ const AirIndex = () => {
       </View>
 
       <Text style={{ color: 'white', textAlign: 'center' }}>
-        Last Updated at {data.timestamp_local.substring(11, 16)}.
+        Last Updated at {time} - {d}/{m}/{y}.
       </Text>
 
-      <AQICard />
+      <AQICard value={data.aqi} />
 
       <TouchableOpacity
         style={{
@@ -87,7 +119,6 @@ const AirIndex = () => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              // width: '100%',
               marginHorizontal: SIZES.large,
               marginBottom: 20,
             }}
@@ -108,7 +139,7 @@ const AirIndex = () => {
               image={assets.co}
               title="Carbon Dioxide"
               value={data.co}
-              unit="ppm"
+              unit="&#181;g/m3"
             />
           </View>
 
