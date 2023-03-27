@@ -4,15 +4,15 @@ import axios from 'axios';
 
 // const rapidApiKey = RAPID_API_KEY;
 
-const weatherFetch = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const weatherFetch = (lonlat) => {
+  const [weatherData, setWeatherData] = useState([]);
+  const [isWeatherLoading, setIsWeatherLoading] = useState(false);
+  const [weatherError, setWeatherError] = useState(null);
 
   const options = {
     method: 'GET',
     url: 'https://weatherapi-com.p.rapidapi.com/current.json',
-    params: { q: '10.8231,106.6297' },
+    params: { q: lonlat },
     headers: {
       'X-RapidAPI-Key': '98ec45d1cemsh5c7a78126905c3ap1d868cjsned76057a5cf9',
       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com',
@@ -20,18 +20,18 @@ const weatherFetch = () => {
   };
 
   const fetchData = async () => {
-    setIsLoading(true);
+    setIsWeatherLoading(true);
 
     try {
       const response = await axios.request(options);
 
-      setData(response.data.current);
-      setIsLoading(false);
+      setWeatherData(response.data.current);
+      setIsWeatherLoading(false);
     } catch (error) {
-      setError(error);
+      setWeatherError(error);
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setIsWeatherLoading(false);
     }
   };
 
@@ -40,41 +40,41 @@ const weatherFetch = () => {
   }, []);
 
   const refetch = () => {
-    setIsLoading(true);
+    setIsWeatherLoading(true);
     fetchData();
   };
 
-  return { data, isLoading, error, refetch };
+  return { weatherData, isWeatherLoading, weatherError, refetch };
 };
 
-const currentAirFetch = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+const currentAirFetch = (lon, lat) => {
+  const [airData, setAirData] = useState([]);
+  const [isAirLoading, setIsAirLoading] = useState(true);
+  const [airError, setAirError] = useState(null);
 
   const options = {
     method: 'GET',
     url: 'https://air-quality.p.rapidapi.com/history/airquality',
-    params: { lon: '106.6297', lat: '10.8231' },
+    params: { lon: lon, lat: lat },
     headers: {
-      'X-RapidAPI-Key': '087bc98a74msh374775f5cce4b19p10dc22jsn54595c72e1c4',
+      'X-RapidAPI-Key': 'ed5cc6ba84msh0c79f2e310946e8p101108jsn35683851fabb',
       'X-RapidAPI-Host': 'air-quality.p.rapidapi.com',
     },
   };
 
   const fetchData = async () => {
-    setIsLoading(true);
+    setIsAirLoading(true);
 
     try {
       const response = await axios.request(options);
 
-      setData(response.data.data[0]);
-      setIsLoading(false);
+      setAirData(response.data.data[0]);
+      setIsAirLoading(false);
     } catch (error) {
-      setError(error);
+      setAirError(error);
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setIsAirLoading(false);
     }
   };
 
@@ -83,11 +83,11 @@ const currentAirFetch = () => {
   }, []);
 
   const refetch = () => {
-    setIsLoading(true);
+    setIsAirLoading(true);
     fetchData();
   };
 
-  return { data, isLoading, error, refetch };
+  return { airData, isAirLoading, airError, refetch };
 };
 
 export { weatherFetch, currentAirFetch };

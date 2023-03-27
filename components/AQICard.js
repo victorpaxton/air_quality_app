@@ -16,7 +16,8 @@ import AQIBar from './AQIBar';
 import { weatherFetch } from '../hook/useFetch';
 
 const AQICard = ({ value }) => {
-  const { data, isLoading, error } = weatherFetch();
+  const { weatherData, isWeatherLoading, weatherError } =
+    weatherFetch('10.8231,106.6297');
 
   const [degC, setDegC] = useState(true);
 
@@ -28,6 +29,7 @@ const AQICard = ({ value }) => {
     else if (value > 200 && value <= 300) return 'rgba(178, 70, 145, 0.8)';
     else return 'rgba(153, 68, 68, 0.8)';
   };
+
   return (
     <View
       style={{
@@ -119,12 +121,13 @@ const AQICard = ({ value }) => {
                 color: bgColor(),
               }}
             >
-              &#181;g/m3
+              US AQI
             </Text>
           </View>
         </View>
         <Face value={value} />
       </View>
+
       <View
         style={{
           flexDirection: 'row',
@@ -137,11 +140,11 @@ const AQICard = ({ value }) => {
           borderBottomStartRadius: SIZES.font,
         }}
       >
-        {isLoading ? (
+        {isWeatherLoading ? (
           <>
             <ActivityIndicator size="small" color={COLORS.primary} />
           </>
-        ) : error ? (
+        ) : weatherError ? (
           <Text
             style={{
               color: 'white',
@@ -155,40 +158,54 @@ const AQICard = ({ value }) => {
           </Text>
         ) : (
           <>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+            >
               <MaterialCommunityIcons
                 name="weather-partly-cloudy"
-                size={SIZES.large}
+                size={SIZES.extraLarge}
                 color={COLORS.primary}
               />
-              {degC ? (
-                <TouchableOpacity onPress={() => setDegC(!degC)}>
-                  <Text
-                    style={{ fontSize: SIZES.large, color: COLORS.primary }}
-                  >
-                    {data.temp_c}
-                    <MaterialCommunityIcons
-                      name="temperature-celsius"
-                      size={20}
-                      color={COLORS.primary}
-                    />
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={() => setDegC(!degC)}>
-                  <Text
-                    style={{ fontSize: SIZES.large, color: COLORS.primary }}
-                  >
-                    {data.temp_f}
-                    <MaterialCommunityIcons
-                      name="temperature-fahrenheit"
-                      size={20}
-                      color={COLORS.primary}
-                    />
-                  </Text>
-                </TouchableOpacity>
-              )}
+              <View style={{ flexDirection: 'col', alignItems: 'center' }}>
+                {degC ? (
+                  <TouchableOpacity onPress={() => setDegC(!degC)}>
+                    <Text
+                      style={{
+                        fontSize: SIZES.extraLarge,
+                        color: COLORS.primary,
+                      }}
+                    >
+                      {weatherData.temp_c}
+                      <MaterialCommunityIcons
+                        name="temperature-celsius"
+                        size={24}
+                        color={COLORS.primary}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={() => setDegC(!degC)}>
+                    <Text
+                      style={{
+                        fontSize: SIZES.extraLarge,
+                        color: COLORS.primary,
+                      }}
+                    >
+                      {weatherData.temp_f}
+                      <MaterialCommunityIcons
+                        name="temperature-fahrenheit"
+                        size={24}
+                        color={COLORS.primary}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
+                  {weatherData.condition ? weatherData.condition.text : '__'}
+                </Text>
+              </View>
             </View>
+
             <View style={{ flexDirection: 'row', gap: 8 }}>
               <Ionicons
                 name="water"
@@ -196,13 +213,13 @@ const AQICard = ({ value }) => {
                 color={COLORS.primary}
               />
               <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
-                {data.humidity} %
+                {weatherData.humidity} %
               </Text>
             </View>
             <View style={{ flexDirection: 'row', gap: 8 }}>
               <Feather name="wind" size={SIZES.large} color={COLORS.primary} />
               <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
-                {data.wind_kph} km/h
+                {weatherData.wind_kph} km/h
               </Text>
             </View>
           </>

@@ -11,11 +11,14 @@ import PollutantCard from './PollutantCard';
 import { currentAirFetch } from '../hook/useFetch';
 
 const AirIndex = () => {
-  const { data, isLoading, error } = currentAirFetch();
+  const { airData, isAirLoading, airError } = currentAirFetch(
+    '106.6297',
+    '10.8231'
+  );
 
   const [showFull, setShowFull] = useState(false);
 
-  return isLoading ? (
+  return isAirLoading ? (
     <>
       <ActivityIndicator
         size="large"
@@ -34,7 +37,7 @@ const AirIndex = () => {
         Loading...
       </Text>
     </>
-  ) : error ? (
+  ) : airError ? (
     <Text
       style={{
         color: 'white',
@@ -65,13 +68,13 @@ const AirIndex = () => {
       </View>
 
       <Text style={{ color: 'white', textAlign: 'center' }}>
-        Last Updated at {data.timestamp_local.substring(11, 16)} -{' '}
-        {data.timestamp_local.substring(8, 10)}/
-        {data.timestamp_local.substring(5, 7)}/
-        {data.timestamp_local.substring(0, 4)}.
+        Last Updated at {airData.timestamp_local.substring(11, 16)} -{' '}
+        {airData.timestamp_local.substring(8, 10)}/
+        {airData.timestamp_local.substring(5, 7)}/
+        {airData.timestamp_local.substring(0, 4)}.
       </Text>
 
-      <AQICard value={data.aqi} />
+      <AQICard value={airData.aqi} />
 
       <TouchableOpacity
         style={{
@@ -121,19 +124,19 @@ const AirIndex = () => {
             <PollutantCard
               image={assets.pm25}
               title="Particles &lt; 2.5 &#181;m"
-              value={data.pm25}
+              value={airData.pm25}
               unit="&#181;g/m3"
             />
             <PollutantCard
               image={assets.pm10}
               title="Particles &lt; 10 &#181;m"
-              value={data.pm10}
+              value={airData.pm10}
               unit="&#181;g/m3"
             />
             <PollutantCard
               image={assets.co}
               title="Carbon Dioxide"
-              value={data.co}
+              value={airData.co}
               unit="&#181;g/m3"
             />
           </View>
@@ -150,19 +153,19 @@ const AirIndex = () => {
             <PollutantCard
               image={assets.so2}
               title="Sulfur Dioxide"
-              value={data.so2}
+              value={airData.so2}
               unit="&#181;g/m3"
             />
             <PollutantCard
               image={assets.no2}
               title="Nitrogen Dioxide"
-              value={data.no2}
+              value={airData.no2}
               unit="&#181;g/m3"
             />
             <PollutantCard
               image={assets.o3}
               title="Ozone"
-              value={data.o3}
+              value={airData.o3}
               unit="&#181;g/m3"
             />
           </View>

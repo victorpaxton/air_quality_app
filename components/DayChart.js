@@ -1,10 +1,18 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import { FONTS, COLORS, SIZES } from '../constants';
 
 const DayChart = () => {
   return (
-    <View>
-      <Text>DayChart</Text>
+    <View style={{ margin: SIZES.large }}>
+      <Text
+        style={{
+          fontFamily: FONTS.bold,
+          fontSize: 28,
+          color: COLORS.white,
+        }}
+      >
+        DayChart
+      </Text>
     </View>
   );
 };
