@@ -21,6 +21,13 @@ const BottomTab = () => {
       <Tab.Screen
         name="Home"
         component={Home}
+        initialParams={{
+          location: {
+            city: 'My Location',
+            country: 'Ho Chi Minh City, Vietnam',
+          },
+          pin: { lon: 106.6297, lat: 10.8231 },
+        }}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (

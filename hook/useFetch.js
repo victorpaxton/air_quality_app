@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const weatherFetch = (lonlat) => {
   const [weatherData, setWeatherData] = useState([]);
-  const [isWeatherLoading, setIsWeatherLoading] = useState(false);
+  const [isWeatherLoading, setIsWeatherLoading] = useState(true);
   const [weatherError, setWeatherError] = useState(null);
 
   const options = {
@@ -37,7 +37,7 @@ const weatherFetch = (lonlat) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [lonlat]);
 
   const refetch = () => {
     setIsWeatherLoading(true);
@@ -69,6 +69,7 @@ const currentAirFetch = (lon, lat) => {
       const response = await axios.request(options);
 
       setAirData(response.data.data[0]);
+
       setIsAirLoading(false);
     } catch (error) {
       setAirError(error);
@@ -80,12 +81,14 @@ const currentAirFetch = (lon, lat) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [lon, lat]);
 
   const refetch = () => {
     setIsAirLoading(true);
     fetchData();
   };
+
+  console.log('fetch:', airData);
 
   return { airData, isAirLoading, airError, refetch };
 };

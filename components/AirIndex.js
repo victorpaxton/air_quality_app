@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { COLORS, FONTS, SIZES, assets } from '../constants';
 import { ActivityIndicator } from 'react-native';
@@ -12,6 +12,8 @@ import { currentAirFetch } from '../hook/useFetch';
 
 const AirIndex = ({ pin }) => {
   const { airData, isAirLoading, airError } = currentAirFetch(pin.lon, pin.lat);
+
+  console.log(pin, airData);
 
   const [showFull, setShowFull] = useState(false);
 

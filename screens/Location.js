@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -6,20 +6,25 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { COLORS, SIZES, assets } from '../constants';
-import { LocationCard, SearchModal } from '../components';
-
-import { EvilIcons } from '@expo/vector-icons';
 
 import { GOOGLE_API_KEY } from '@env';
+import { LocationCard, SearchModal } from '../components';
+
+import { COLORS, SIZES, assets } from '../constants';
+import { EvilIcons } from '@expo/vector-icons';
 
 const Location = () => {
   const [pin, setPin] = useState({ lat: 10.8231, lon: 106.6297 });
-  const [location, setLocation] = useState({ city: '', country: '' });
+  const [location, setLocation] = useState({ city: '', country: '', id: '' });
 
   const [showModal, setShowModal] = useState(false);
+
+  const [locationList, setLocationList] = useState([]);
+
+  console.log(locationList);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
@@ -41,6 +46,7 @@ const Location = () => {
               setLocation({
                 city: data.structured_formatting.main_text,
                 country: data.structured_formatting.secondary_text,
+                id: data.place_id,
               });
               setShowModal(!showModal);
             }}
@@ -75,7 +81,18 @@ const Location = () => {
               <TouchableOpacity onPress={() => setShowModal(false)}>
                 <Text style={styles.subtitle}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={{}}>
+              <TouchableOpacity
+                onPress={() => {
+                  locationList.findIndex((elem) => elem.id === location.id) ===
+                  -1
+                    ? setLocationList((locationList) => [
+                        ...locationList,
+                        { ...location, ...pin },
+                      ])
+                    : console.log('Duplicate location');
+                  setShowModal(false);
+                }}
+              >
                 <Text
                   style={{
                     ...styles.subtitle,
@@ -89,40 +106,18 @@ const Location = () => {
           </>
         ) : null}
 
-        <LocationCard
-          location={{ city: 'Hue', country: 'Thua Thien Hue, Vietnam' }}
-          pin={{ lat: 16.4637, lon: 107.5909 }}
-        />
-        {/* <LocationCard
-          city="Hue"
-          country="Vietnam"
-          lon="107.5909"
-          lat="16.4637"
-            /> 
-        <LocationCard
-          city="Ha Noi"
-          country="Vietnam"
-          lon="105.8342"
-          lat="21.0278"
-        />
-         <LocationCard
-          city="Binh Duong"
-          country="Vietnam"
-          lon="108.0717"
-          lat="16.0545"
-        /> 
-        <LocationCard
-          city="Da Nang"
-          country="Vietnam"
-          lon="106.6297"
-          lat="10.8231"
-        />
-        <LocationCard
-          city="Kon Tum"
-          country="Vietnam"
-          lon="106.6297"
-          lat="10.8231"
-        /> */}
+        {!showModal ? (
+          <FlatList
+            data={locationList}
+            renderItem={({ item }) => (
+              <LocationCard
+                location={{ city: item.city, country: item.country }}
+                pin={{ lat: item.lat, lon: item.lon }}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

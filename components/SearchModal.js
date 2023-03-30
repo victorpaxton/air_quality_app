@@ -11,8 +11,8 @@ const SearchModal = ({ location, pin }) => {
           flexDirection: 'col',
           alignItems: 'center',
           gap: 8,
-          paddingVertical: SIZES.large,
-          paddingTop: 70,
+          paddingVertical: SIZES.small,
+          paddingTop: 40,
         }}
       >
         <Text style={styles.title}>{location.city}</Text>

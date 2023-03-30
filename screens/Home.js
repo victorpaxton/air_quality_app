@@ -1,4 +1,5 @@
 import { View, SafeAreaView, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
 
 import { COLORS } from '../constants';
 
