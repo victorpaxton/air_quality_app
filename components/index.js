@@ -4,6 +4,7 @@ import DayChart from './DayChart.js';
 import AirIndex from './AirIndex.js';
 import HealthAdvice from './HealthAdvice.js';
 import LocationCard from './LocationCard.js';
+import SearchModal from './SearchModal.js';
 
 export {
   HomeHeader,
@@ -13,4 +14,5 @@ export {
   DayChart,
   HealthAdvice,
   LocationCard,
+  SearchModal,
 };

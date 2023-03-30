@@ -4,14 +4,16 @@ import { COLORS } from '../constants';
 
 import { DayChart, HomeHeader, AirIndex, HealthAdvice } from '../components';
 
-const Home = () => {
+const Home = ({ route }) => {
+  const { location, pin } = route.params;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={{ zIndex: 1 }}>
-          <HomeHeader />
+          <HomeHeader location={location} />
 
-          <AirIndex />
+          <AirIndex pin={pin} />
 
           <DayChart />
 

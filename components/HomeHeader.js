@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 
-const HomeHeader = ({ onSearch }) => {
+const HomeHeader = ({ location }) => {
   const navigation = useNavigation();
 
   return (
@@ -55,7 +55,7 @@ const HomeHeader = ({ onSearch }) => {
             textAlign: 'center',
           }}
         >
-          Hello, Bogdan 👋
+          Hello, Nole 👋
         </Text>
 
         <TouchableOpacity
@@ -77,7 +77,10 @@ const HomeHeader = ({ onSearch }) => {
             }}
           >
             <FontAwesome5 name="location-arrow" size={24} color="black" />
-            <Text>{'  '}My Location</Text>
+            <Text>
+              {'  '}
+              {location.city}
+            </Text>
           </Text>
 
           <Text
@@ -89,7 +92,7 @@ const HomeHeader = ({ onSearch }) => {
               marginTop: 5,
             }}
           >
-            {AirData.city_name} - {AirData.country_code}
+            {location.country}
           </Text>
         </TouchableOpacity>
       </View>

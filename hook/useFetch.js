@@ -57,7 +57,7 @@ const currentAirFetch = (lon, lat) => {
     url: 'https://air-quality.p.rapidapi.com/history/airquality',
     params: { lon: lon, lat: lat },
     headers: {
-      'X-RapidAPI-Key': 'ed5cc6ba84msh0c79f2e310946e8p101108jsn35683851fabb',
+      'X-RapidAPI-Key': '5a43fdee18msh13d92bfb94cde38p1b6aa4jsn74f2ec25d2fd',
       'X-RapidAPI-Host': 'air-quality.p.rapidapi.com',
     },
   };

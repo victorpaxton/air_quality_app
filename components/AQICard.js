@@ -15,9 +15,10 @@ import AQIBar from './AQIBar';
 
 import { weatherFetch } from '../hook/useFetch';
 
-const AQICard = ({ value }) => {
-  const { weatherData, isWeatherLoading, weatherError } =
-    weatherFetch('10.8231,106.6297');
+const AQICard = ({ value, pin }) => {
+  const { weatherData, isWeatherLoading, weatherError } = weatherFetch(
+    pin.lat + ',' + pin.lon
+  );
 
   const [degC, setDegC] = useState(true);
 

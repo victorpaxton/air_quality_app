@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 
 const AirStatus = ({ value }) => {
   if (value >= 0 && value <= 50)

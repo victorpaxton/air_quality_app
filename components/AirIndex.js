@@ -10,11 +10,8 @@ import AQICard from './AQICard';
 import PollutantCard from './PollutantCard';
 import { currentAirFetch } from '../hook/useFetch';
 
-const AirIndex = () => {
-  const { airData, isAirLoading, airError } = currentAirFetch(
-    '106.6297',
-    '10.8231'
-  );
+const AirIndex = ({ pin }) => {
+  const { airData, isAirLoading, airError } = currentAirFetch(pin.lon, pin.lat);
 
   const [showFull, setShowFull] = useState(false);
 
@@ -74,7 +71,7 @@ const AirIndex = () => {
         {airData.timestamp_local.substring(0, 4)}.
       </Text>
 
-      <AQICard value={airData.aqi} />
+      <AQICard value={airData.aqi} pin={pin} />
 
       <TouchableOpacity
         style={{
