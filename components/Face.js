@@ -1,5 +1,5 @@
-import { Image } from 'react-native';
-import { assets } from '../constants';
+import { Image } from "react-native";
+import { assets } from "../constants";
 
 const Face = ({ value }) => {
   if (value >= 0 && value <= 50)
