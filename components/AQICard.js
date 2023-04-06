@@ -225,13 +225,8 @@ const AQICard = ({ value, pin }) => {
                         color: COLORS.primary,
                       }}
                     >
-                      {weatherData.temp_c}
+                      {weatherData.temp_c}°C
                       {/* {temp} */}
-                      <MaterialCommunityIcons
-                        name="temperature-celsius"
-                        size={24}
-                        color={COLORS.primary}
-                      />
                     </Text>
                   </TouchableOpacity>
                 ) : (
@@ -242,12 +237,7 @@ const AQICard = ({ value, pin }) => {
                         color: COLORS.primary,
                       }}
                     >
-                      {weatherData.temp_f}
-                      <MaterialCommunityIcons
-                        name="temperature-fahrenheit"
-                        size={24}
-                        color={COLORS.primary}
-                      />
+                      {weatherData.temp_f}°F
                     </Text>
                   </TouchableOpacity>
                 )}

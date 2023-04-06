@@ -3,7 +3,6 @@ import {
   Text,
   ActivityIndicator,
   TouchableOpacity,
-  Dimensions,
   Animated,
   StyleSheet,
 } from 'react-native';
@@ -15,10 +14,11 @@ import AirStatus from './AirStatus.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { weatherFetch, currentAirFetch } from '../hook/useFetch';
-import { useNavigation } from '@react-navigation/native';
 import { Swipeable } from 'react-native-gesture-handler';
 
 import { AntDesign } from '@expo/vector-icons';
+import { useStateContext } from '../context/StateContext';
+import { useNavigation } from '@react-navigation/native';
 
 const bgColor = (value) => {
   if (value >= 0 && value <= 50) return 'rgba(118, 211, 80, 0.8)';
@@ -31,6 +31,8 @@ const bgColor = (value) => {
 
 const LocationCard = ({ location, pin, handleDelete }) => {
   const navigation = useNavigation();
+
+  const { changeDefaultLocation } = useStateContext();
 
   const { weatherData, isWeatherLoading, weatherError } = weatherFetch(
     pin.lat + ',' + pin.lon
@@ -99,9 +101,10 @@ const LocationCard = ({ location, pin, handleDelete }) => {
           ...SHADOWS.dark,
           height: 170,
         }}
-        onPress={() =>
-          navigation.navigate('Home', { location: location, pin: pin })
-        }
+        onPress={() => {
+          changeDefaultLocation(location, pin);
+          navigation.navigate('Home');
+        }}
       >
         <View
           style={{

@@ -6,6 +6,8 @@ import { DayChart, HomeHeader, AirIndex, HealthAdvice } from '../components';
 
 import { AirData } from '../constants/dump';
 
+import { useStateContext } from '../context/StateContext';
+
 const chartData = {
   labels: AirData.data
     .slice(0, 24)
@@ -28,8 +30,8 @@ const chartData = {
   ],
 };
 
-const Home = ({ route }) => {
-  const { location, pin } = route.params;
+const Home = () => {
+  const { location, pin } = useStateContext();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>

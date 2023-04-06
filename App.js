@@ -1,11 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'react-native';
 
 import { BottomTab } from './navigations';
 
-const Stack = createNativeStackNavigator();
+import { StateContext } from './context/StateContext';
 
 const App = () => {
   const [loaded] = useFonts({
@@ -19,10 +18,12 @@ const App = () => {
   if (!loaded) return null;
 
   return (
-    <NavigationContainer>
-      <StatusBar animated={true} barStyle="light-content" />
-      <BottomTab />
-    </NavigationContainer>
+    <StateContext>
+      <NavigationContainer>
+        <StatusBar animated={true} barStyle="light-content" />
+        <BottomTab />
+      </NavigationContainer>
+    </StateContext>
   );
 };
 

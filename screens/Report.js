@@ -5,17 +5,18 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-} from "react-native";
-import { HomeHeader } from "../components";
-import { COLORS, FONTS, SIZES, assets } from "../constants";
-import { ForecastGraph } from "../components";
-import { ForecastLine } from "../components";
-import { HourlyItem } from "../components";
-import { forecastDay } from "../hook/useFetch";
-import { ActivityIndicator } from "react-native";
+} from 'react-native';
+import { HomeHeader } from '../components';
+import { COLORS, FONTS, SIZES, assets } from '../constants';
+import { ForecastGraph } from '../components';
+import { ForecastLine } from '../components';
+import { HourlyItem } from '../components';
+import { forecastDay } from '../hook/useFetch';
+import { ActivityIndicator } from 'react-native';
+import { useStateContext } from '../context/StateContext';
 
-const Report = ({ route }) => {
-  const { location, pin } = route.params;
+const Report = () => {
+  const { location, pin } = useStateContext();
 
   const { data, isLoading, error } = forecastDay(pin.lon, pin.lat);
 
@@ -24,14 +25,14 @@ const Report = ({ route }) => {
       <ActivityIndicator
         size="large"
         color="white"
-        style={{ paddingTop: "20%" }}
+        style={{ paddingTop: '20%' }}
       />
       <Text
         style={{
-          color: "white",
-          textAlign: "center",
+          color: 'white',
+          textAlign: 'center',
           paddingTop: 10,
-          paddingBottom: "20%",
+          paddingBottom: '20%',
           fontSize: SIZES.large,
         }}
       >
@@ -41,10 +42,10 @@ const Report = ({ route }) => {
   ) : error ? (
     <Text
       style={{
-        color: "white",
-        textAlign: "center",
+        color: 'white',
+        textAlign: 'center',
         paddingTop: 10,
-        paddingBottom: "20%",
+        paddingBottom: '20%',
         fontSize: SIZES.large,
       }}
     >
@@ -57,9 +58,9 @@ const Report = ({ route }) => {
           <HomeHeader location={location} />
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
               margin: SIZES.large,
             }}
           >
@@ -78,8 +79,8 @@ const Report = ({ route }) => {
               borderWidth: 1,
               borderRadius: 15,
               paddingVertical: 5,
-              backgroundColor: "rgba(211,211,211,0.3)",
-              width: "95%",
+              backgroundColor: 'rgba(211,211,211,0.3)',
+              width: '95%',
               marginLeft: 10,
             }}
           >
