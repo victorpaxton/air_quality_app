@@ -48,7 +48,7 @@ function InputAutocomplete({ label, placeholder = "", onPlaceSelected }) {
   );
 }
 
-export default function App() {
+export default function AirMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [showDiretions, setShowDirections] = useState(false);
