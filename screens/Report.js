@@ -5,16 +5,18 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-} from "react-native";
-import { HomeHeader } from "../components";
-import { COLORS, FONTS, SIZES, assets } from "../constants";
-import { ForecastGraph } from "../components";
-import { ForecastLine } from "../components";
-import { HourlyItem } from "../components";
-import { forecastDay } from "../hook/useFetch";
-import { ActivityIndicator } from "react-native";
+} from 'react-native';
+import { HomeHeader } from '../components';
+import { COLORS, FONTS, SIZES, assets } from '../constants';
+import { ForecastGraph } from '../components';
+import { ForecastLine } from '../components';
+import { HourlyItem } from '../components';
+import { forecastDay } from '../hook/useFetch';
+import { ActivityIndicator } from 'react-native';
 
-const Report = () => {
+const Report = ({ route }) => {
+  const { location, pin } = route.params;
+
   const { data, isLoading, error } = forecastDay();
 
   return isLoading ? (
@@ -22,14 +24,14 @@ const Report = () => {
       <ActivityIndicator
         size="large"
         color="white"
-        style={{ paddingTop: "20%" }}
+        style={{ paddingTop: '20%' }}
       />
       <Text
         style={{
-          color: "white",
-          textAlign: "center",
+          color: 'white',
+          textAlign: 'center',
           paddingTop: 10,
-          paddingBottom: "20%",
+          paddingBottom: '20%',
           fontSize: SIZES.large,
         }}
       >
@@ -39,10 +41,10 @@ const Report = () => {
   ) : error ? (
     <Text
       style={{
-        color: "white",
-        textAlign: "center",
+        color: 'white',
+        textAlign: 'center',
         paddingTop: 10,
-        paddingBottom: "20%",
+        paddingBottom: '20%',
         fontSize: SIZES.large,
       }}
     >
@@ -52,12 +54,12 @@ const Report = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator="false">
         <View style={{ zIndex: 1 }}>
-          <HomeHeader />
+          <HomeHeader location={location} />
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
               margin: SIZES.large,
             }}
           >
@@ -76,7 +78,7 @@ const Report = () => {
               borderWidth: 1,
               borderRadius: 15,
               paddingVertical: 5,
-              backgroundColor: "rgba(211,211,211,0.3)",
+              backgroundColor: 'rgba(211,211,211,0.3)',
             }}
           >
             <ForecastLine
