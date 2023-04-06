@@ -125,18 +125,21 @@ const AirIndex = ({ pin }) => {
               title="Particles &lt; 2.5 &#181;m"
               value={airData.pm25}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-particulate-matter-pm/'}
             />
             <PollutantCard
               image={assets.pm10}
               title="Particles &lt; 10 &#181;m"
               value={airData.pm10}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-particulate-matter-pm/'}
             />
             <PollutantCard
               image={assets.co}
               title="Carbon Dioxide"
               value={airData.co}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-carbon-monoxide-co/'}
             />
           </View>
 
@@ -154,18 +157,21 @@ const AirIndex = ({ pin }) => {
               title="Sulfur Dioxide"
               value={airData.so2}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-sulfur-dioxide-so2/'}
             />
             <PollutantCard
               image={assets.no2}
               title="Nitrogen Dioxide"
               value={airData.no2}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-nitrogen-dioxide-no2/'}
             />
             <PollutantCard
               image={assets.o3}
               title="Ozone"
               value={airData.o3}
               unit="&#181;g/m3"
+              url={'https://www.pranaair.com/what-is-ozone-o3/'}
             />
           </View>
         </View>

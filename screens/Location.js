@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -25,6 +25,12 @@ const Location = () => {
   const [locationList, setLocationList] = useState([]);
 
   console.log(locationList);
+
+  const deleteCard = (id) => {
+    const index = locationList.findIndex((item) => item.id === id);
+    locationList.splice(index, 1);
+    setLocationList((locationList) => [...locationList]);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
@@ -113,6 +119,7 @@ const Location = () => {
               <LocationCard
                 location={{ city: item.city, country: item.country }}
                 pin={{ lat: item.lat, lon: item.lon }}
+                handleDelete={() => deleteCard(item.id)}
               />
             )}
             keyExtractor={(item) => item.id}

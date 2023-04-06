@@ -1,4 +1,12 @@
-import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+  Dimensions,
+  Animated,
+  StyleSheet,
+} from 'react-native';
 
 import { COLORS, SIZES, SHADOWS, FONTS } from '../constants';
 
@@ -8,6 +16,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { weatherFetch, currentAirFetch } from '../hook/useFetch';
 import { useNavigation } from '@react-navigation/native';
+import { Swipeable } from 'react-native-gesture-handler';
+
+import { AntDesign } from '@expo/vector-icons';
 
 const bgColor = (value) => {
   if (value >= 0 && value <= 50) return 'rgba(118, 211, 80, 0.8)';
@@ -18,7 +29,7 @@ const bgColor = (value) => {
   else return 'rgba(153, 68, 68, 0.8)';
 };
 
-const LocationCard = ({ location, pin }) => {
+const LocationCard = ({ location, pin, handleDelete }) => {
   const navigation = useNavigation();
 
   const { weatherData, isWeatherLoading, weatherError } = weatherFetch(
@@ -26,6 +37,23 @@ const LocationCard = ({ location, pin }) => {
   );
 
   const { airData, isAirLoading, airError } = currentAirFetch(pin.lon, pin.lat);
+
+  const leftSwipe = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+    return (
+      <TouchableOpacity onPress={handleDelete} activeOpacity={0.6}>
+        <View style={styles.deleteBox}>
+          <Animated.Text style={{ transform: [{ scale: scale }] }}>
+            <AntDesign name="delete" size={32} color="white" />
+          </Animated.Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return isWeatherLoading || isAirLoading ? (
     <>
@@ -59,147 +87,163 @@ const LocationCard = ({ location, pin }) => {
       Oops, something went wrong!
     </Text>
   ) : (
-    <TouchableOpacity
-      style={{
-        backgroundColor: bgColor(airData.aqi),
-        borderRadius: SIZES.font,
-        flexDirection: 'row',
-        paddingVertical: SIZES.medium,
-        paddingHorizontal: SIZES.extraLarge,
-        margin: SIZES.medium,
-        ...SHADOWS.dark,
-      }}
-      onPress={() =>
-        navigation.navigate('Home', { location: location, pin: pin })
-      }
-    >
-      <View
+    <Swipeable renderLeftActions={leftSwipe}>
+      <TouchableOpacity
         style={{
-          width: '50%',
-          gap: 10,
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
+          backgroundColor: bgColor(airData.aqi),
+          borderRadius: SIZES.font,
+          flexDirection: 'row',
+          paddingVertical: SIZES.medium,
+          paddingHorizontal: SIZES.extraLarge,
+          margin: SIZES.medium,
+          ...SHADOWS.dark,
+          height: 170,
         }}
+        onPress={() =>
+          navigation.navigate('Home', { location: location, pin: pin })
+        }
       >
-        <View>
-          <Text
+        <View
+          style={{
+            width: '50%',
+            gap: 10,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontSize: SIZES.extraLarge,
+                textTransform: 'capitalize',
+                fontFamily: FONTS.semiBold,
+                color: COLORS.primary,
+              }}
+            >
+              {location.city.substring(0, 12)}
+              {location.city.length > 12 ? '...' : ''}
+            </Text>
+            <Text
+              style={{
+                fontSize: SIZES.large,
+                textTransform: 'capitalize',
+                fontFamily: FONTS.regular,
+              }}
+            >
+              {location.country.substring(0, 12)}
+              {location.country.length > 12 ? '...' : ''}
+            </Text>
+          </View>
+
+          <View
             style={{
-              fontSize: SIZES.extraLarge,
-              textTransform: 'capitalize',
-              fontFamily: FONTS.semiBold,
-              color: COLORS.primary,
+              flexDirection: 'col',
+              justifyContent: 'flex-end',
+              gap: 2,
             }}
           >
-            {location.city.substring(0, 12)}
-            {location.city.length > 12 ? '...' : ''}
-          </Text>
-          <Text
-            style={{
-              fontSize: SIZES.large,
-              textTransform: 'capitalize',
-              fontFamily: FONTS.regular,
-            }}
-          >
-            {location.country.substring(0, 12)}
-            {location.country.length > 12 ? '...' : ''}
-          </Text>
+            <Text
+              style={{
+                fontSize: SIZES.extraLarge,
+                color: COLORS.primary,
+              }}
+            >
+              {weatherData.temp_c}
+              <MaterialCommunityIcons
+                name="temperature-celsius"
+                size={24}
+                color={COLORS.primary}
+              />
+            </Text>
+
+            <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
+              {weatherData.condition ? weatherData.condition.text : '__'}
+            </Text>
+          </View>
         </View>
 
         <View
           style={{
             flexDirection: 'col',
-            justifyContent: 'flex-end',
-            gap: 2,
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            width: '50%',
           }}
         >
-          <Text
+          <View
             style={{
-              fontSize: SIZES.extraLarge,
-              color: COLORS.primary,
+              backgroundColor: COLORS.white,
+              width: 100,
+              paddingVertical: 8,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: SIZES.font,
             }}
           >
-            {weatherData.temp_c}
-            <MaterialCommunityIcons
-              name="temperature-celsius"
-              size={24}
-              color={COLORS.primary}
-            />
-          </Text>
+            <Text
+              style={{
+                fontSize: 40,
+                fontFamily: FONTS.medium,
+                color: bgColor(airData.aqi),
+                textShadowColor: 'rgba(0, 0, 0, 0.8)',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 1,
+              }}
+            >
+              {airData.aqi}{' '}
+            </Text>
+            <View>
+              <Text
+                style={{
+                  fontSize: SIZES.font,
+                  fontFamily: FONTS.regular,
+                  color: bgColor(airData.aqi),
+                }}
+              >
+                US
+              </Text>
+              <Text
+                style={{
+                  fontSize: SIZES.font,
+                  fontFamily: FONTS.regular,
+                  color: bgColor(airData.aqi),
+                }}
+              >
+                AQI
+              </Text>
+            </View>
+          </View>
 
-          <Text style={{ fontSize: SIZES.large, color: COLORS.primary }}>
-            {weatherData.condition ? weatherData.condition.text : '__'}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          flexDirection: 'col',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          width: '50%',
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: COLORS.white,
-            width: 100,
-            paddingVertical: 8,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: SIZES.font,
-          }}
-        >
           <Text
             style={{
-              fontSize: 40,
-              fontFamily: FONTS.medium,
-              color: bgColor(airData.aqi),
+              fontSize: 25,
+              fontFamily: FONTS.bold,
               textShadowColor: 'rgba(0, 0, 0, 0.8)',
               textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 1,
+              textShadowRadius: 5,
             }}
           >
-            {airData.aqi}{' '}
+            <AirStatus value={airData.aqi} />
           </Text>
-          <View>
-            <Text
-              style={{
-                fontSize: SIZES.font,
-                fontFamily: FONTS.regular,
-                color: bgColor(airData.aqi),
-              }}
-            >
-              US
-            </Text>
-            <Text
-              style={{
-                fontSize: SIZES.font,
-                fontFamily: FONTS.regular,
-                color: bgColor(airData.aqi),
-              }}
-            >
-              AQI
-            </Text>
-          </View>
         </View>
-
-        <Text
-          style={{
-            fontSize: 25,
-            fontFamily: FONTS.bold,
-            textShadowColor: 'rgba(0, 0, 0, 0.8)',
-            textShadowOffset: { width: 1, height: 1 },
-            textShadowRadius: 5,
-          }}
-        >
-          <AirStatus value={airData.aqi} />
-        </Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Swipeable>
   );
 };
+
+const styles = StyleSheet.create({
+  deleteBox: {
+    margin: SIZES.medium,
+    borderTopLeftRadius: SIZES.font,
+    borderBottomLeftRadius: SIZES.font,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '120%',
+    height: 170,
+  },
+});
 
 export default LocationCard;

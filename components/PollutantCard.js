@@ -1,76 +1,109 @@
-import { View, Text, Image } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Modal,
+  Linking,
+} from 'react-native';
+import { useState } from 'react';
+import { WebView } from 'react-native-webview';
 
 import { COLORS, SHADOWS, SIZES } from '../constants';
 
-const PollutantCard = ({ image, title, value, unit }) => {
-  return (
-    <View
-      style={{
-        width: '30%',
-        height: 175,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderWidth: '1px',
-        borderColor: 'gray',
-        borderRadius: SIZES.font,
-        ...SHADOWS.dark,
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Image
-        source={image}
-        resizeMode="contain"
-        style={{
-          width: '70%',
-          height: '40%',
-          marginTop: 10,
-          backgroundColor: 'white',
-          borderRadius: 50,
-        }}
-      />
-      <View style={{ height: 40 }}>
-        <Text
-          style={{
-            color: COLORS.white,
-            fontSize: SIZES.medium,
-            paddingHorizontal: 20,
-            paddingTop: 6,
-            textAlign: 'center',
-          }}
-        >
-          {title}
-        </Text>
-      </View>
+const PollutantCard = ({ image, title, value, unit, url }) => {
+  const [visible, setVisible] = useState(false);
 
-      <View
+  const openLinkInBrowserHandler = () => {
+    Linking.canOpenURL(url).then((supported) => {
+      supported && Linking.openURL(url);
+    });
+  };
+
+  const openLinkInWebView = () => setVisible(true);
+
+  return (
+    <>
+      <TouchableOpacity
         style={{
-          flexDirection: 'row',
+          width: '30%',
+          height: 175,
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          borderWidth: '1px',
+          borderColor: 'gray',
+          borderRadius: SIZES.font,
+          ...SHADOWS.dark,
+          flexDirection: 'column',
           alignItems: 'center',
         }}
+        onPress={openLinkInWebView}
       >
-        <Text
+        <Image
+          source={image}
+          resizeMode="contain"
           style={{
-            color: COLORS.white,
-            fontSize: SIZES.extraLarge,
-            paddingTop: 10,
-            textAlign: 'center',
+            width: '70%',
+            height: '40%',
+            marginTop: 10,
+            backgroundColor: 'white',
+            borderRadius: 50,
           }}
-        >
-          {value}{' '}
-        </Text>
+        />
+        <View style={{ height: 40 }}>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.medium,
+              paddingHorizontal: 20,
+              paddingTop: 6,
+              textAlign: 'center',
+            }}
+          >
+            {title}
+          </Text>
+        </View>
 
-        <Text
+        <View
           style={{
-            color: COLORS.white,
-            fontSize: SIZES.medium,
-            paddingTop: 10,
-            textAlign: 'center',
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          {unit}
-        </Text>
-      </View>
-    </View>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.extraLarge,
+              paddingTop: 10,
+              textAlign: 'center',
+            }}
+          >
+            {value}{' '}
+          </Text>
+
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.medium,
+              paddingTop: 10,
+              textAlign: 'center',
+            }}
+          >
+            {unit}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <Modal
+        presentationStyle="pageSheet"
+        animationType="fade"
+        visible={visible}
+        onRequestClose={() => {
+          setVisible(!visible);
+        }}
+      >
+        <WebView source={{ uri: url }} />
+      </Modal>
+    </>
   );
 };
 

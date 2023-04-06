@@ -1,9 +1,32 @@
 import { View, SafeAreaView, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
 
 import { COLORS } from '../constants';
 
 import { DayChart, HomeHeader, AirIndex, HealthAdvice } from '../components';
+
+import { AirData } from '../constants/dump';
+
+const chartData = {
+  labels: AirData.data
+    .slice(0, 24)
+    .reverse()
+    .map((item) => item.timestamp_local.substring(11, 16)),
+  datasets: [
+    {
+      data: AirData.data
+        .slice(0, 24)
+        .reverse()
+        .map((item) => item.aqi),
+    },
+    // {
+    //   key: 'dummy-range-padding',
+    //   data: [0, 200],
+    //   color: () => 'rgba0, 0, 0, 0',
+    //   strokeDashArray: [0, 1000],
+    //   withDots: false,
+    // },
+  ],
+};
 
 const Home = ({ route }) => {
   const { location, pin } = route.params;
@@ -16,7 +39,7 @@ const Home = ({ route }) => {
 
           <AirIndex pin={pin} />
 
-          <DayChart />
+          <DayChart chartData={chartData} />
 
           <HealthAdvice />
         </View>
