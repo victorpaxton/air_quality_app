@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import WeatherIcon from "./WeatherIcon.js";
 import { COLORS, FONTS, SIZES, assets, SHADOWS } from "../constants";
+import { ForecastAQI } from "../components";
 const ForecastLine = ({ day, aqi, icon, temp1, temp2, wind, angle }) => {
   const styles = StyleSheet.create({
     container: {
@@ -18,17 +19,8 @@ const ForecastLine = ({ day, aqi, icon, temp1, temp2, wind, angle }) => {
   const day1 = date.toLocaleString("en-US", { weekday: "long" }).split(",")[0];
   return (
     <View style={styles.container}>
-      <Text style={{ color: "white", width: "18%" }}>{day1}</Text>
-      <View style={{ borderRadius: 5, backgroundColor: COLORS.moderate }}>
-        <Text
-          style={{
-            color: "white",
-            padding: 5,
-          }}
-        >
-          {aqi}
-        </Text>
-      </View>
+      <Text style={{ color: "white", width: "20%" }}>{day1}</Text>
+      <ForecastAQI aqi={aqi} />
       <View>
         <WeatherIcon i={icon} />
       </View>

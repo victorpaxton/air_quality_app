@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { AIR_API_KEY, WEATHER_API_KEY } from '@env';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { AIR_API_KEY, WEATHER_API_KEY } from "@env";
 
 const weatherFetch = (lonlat) => {
   const [weatherData, setWeatherData] = useState([]);
@@ -8,12 +8,12 @@ const weatherFetch = (lonlat) => {
   const [weatherError, setWeatherError] = useState(null);
 
   const options = {
-    method: 'GET',
-    url: 'https://weatherapi-com.p.rapidapi.com/current.json',
+    method: "GET",
+    url: "https://weatherapi-com.p.rapidapi.com/current.json",
     params: { q: lonlat },
     headers: {
-      'X-RapidAPI-Key': WEATHER_API_KEY,
-      'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com',
+      "X-RapidAPI-Key": WEATHER_API_KEY,
+      "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
     },
   };
 
@@ -51,12 +51,12 @@ const currentAirFetch = (lon, lat) => {
   const [airError, setAirError] = useState(null);
 
   const options = {
-    method: 'GET',
-    url: 'https://air-quality.p.rapidapi.com/history/airquality',
+    method: "GET",
+    url: "https://air-quality.p.rapidapi.com/history/airquality",
     params: { lon: lon, lat: lat },
     headers: {
-      'X-RapidAPI-Key': AIR_API_KEY,
-      'X-RapidAPI-Host': 'air-quality.p.rapidapi.com',
+      "X-RapidAPI-Key": AIR_API_KEY,
+      "X-RapidAPI-Host": "air-quality.p.rapidapi.com",
     },
   };
 
@@ -86,23 +86,23 @@ const currentAirFetch = (lon, lat) => {
     fetchData();
   };
 
-  console.log('fetch:', airData);
+  console.log("fetch:", airData);
 
   return { airData, isAirLoading, airError, refetch };
 };
 
-const forecastDay = () => {
+const forecastDay = (lon, lat) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const options = {
-    method: 'GET',
-    url: 'https://ai-weather-by-meteosource.p.rapidapi.com/daily',
-    params: { lat: '10.75', lon: '106.67', language: 'en', units: 'metric' },
+    method: "GET",
+    url: "https://ai-weather-by-meteosource.p.rapidapi.com/daily",
+    params: { lat: lat, lon: lon, language: "en", units: "metric" },
     headers: {
-      'X-RapidAPI-Key': '3d083701c9mshd0309721f326facp15b8aajsnb0909ee23002',
-      'X-RapidAPI-Host': 'ai-weather-by-meteosource.p.rapidapi.com',
+      "X-RapidAPI-Key": "3d083701c9mshd0309721f326facp15b8aajsnb0909ee23002",
+      "X-RapidAPI-Host": "ai-weather-by-meteosource.p.rapidapi.com",
     },
   };
   const fetchData = async () => {
@@ -122,7 +122,7 @@ const forecastDay = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [lon, lat]);
 
   const refetch = () => {
     setIsLoading(true);
