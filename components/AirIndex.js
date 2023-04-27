@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { COLORS, FONTS, SIZES, assets } from '../constants';
 import { ActivityIndicator } from 'react-native';
@@ -6,14 +6,49 @@ import { ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 import AQICard from './AQICard';
+import HealthAdvice from './HealthAdvice';
 
 import PollutantCard from './PollutantCard';
-import { currentAirFetch } from '../hook/useFetch';
+import BarChart from './BarChart';
+
+import { currentAirFetch, air24hFetch } from '../hook/useFetch';
+
+const bgColor = (value) => {
+  if (value >= 0 && value <= 50) return COLORS.good;
+  else if (value > 50 && value <= 100) return COLORS.moderate;
+  else if (value > 100 && value <= 150) return COLORS.sensitive;
+  else if (value > 150 && value <= 200) return COLORS.unhealthy;
+  else if (value > 200 && value <= 300) return COLORS.very_unhealthy;
+  else return COLORS.hazardous;
+};
+
+const pm25Color = (value) => {
+  if (value >= 0 && value <= 12.0) return COLORS.good;
+  else if (value > 12.1 && value <= 35.4) return COLORS.moderate;
+  else if (value > 35.5 && value <= 55.4) return COLORS.sensitive;
+  else if (value > 55.5 && value <= 150.4) return COLORS.unhealthy;
+  else if (value > 150.5 && value <= 250.4) return COLORS.very_unhealthy;
+  else return COLORS.hazardous;
+};
 
 const AirIndex = ({ pin }) => {
   const { airData, isAirLoading, airError } = currentAirFetch(pin.lon, pin.lat);
+  const { air24h, isAir24hLoading, air24hError } = air24hFetch(
+    pin.lon,
+    pin.lat
+  );
 
   console.log(pin, airData);
+  if (air24h) {
+    var data = air24h.map((dataPoint) => ({
+      label: dataPoint.timestamp_local.substring(11, 13) + 'h',
+      value: dataPoint.aqi,
+    }));
+    var pm25 = air24h.map((dataPoint) => ({
+      label: dataPoint.timestamp_local.substring(11, 13) + 'h',
+      value: dataPoint.pm25,
+    }));
+  }
 
   const [showFull, setShowFull] = useState(false);
 
@@ -176,6 +211,80 @@ const AirIndex = ({ pin }) => {
           </View>
         </View>
       ) : null}
+
+      <Text
+        style={{
+          fontFamily: FONTS.bold,
+          fontSize: 28,
+          color: COLORS.white,
+          margin: SIZES.large,
+        }}
+      >
+        Last 24 hours
+      </Text>
+
+      {isAir24hLoading ? (
+        <>
+          <ActivityIndicator
+            size="large"
+            color="white"
+            style={{ paddingTop: '20%' }}
+          />
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              paddingTop: 10,
+              paddingBottom: '20%',
+              fontSize: SIZES.large,
+            }}
+          >
+            Loading...
+          </Text>
+        </>
+      ) : air24hError ? (
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            paddingTop: 10,
+            paddingBottom: '20%',
+            fontSize: SIZES.large,
+          }}
+        >
+          Oops, something went wrong!
+        </Text>
+      ) : (
+        <>
+          <Text
+            style={{
+              fontFamily: FONTS.semibold,
+              fontSize: 20,
+              color: COLORS.white,
+              marginBottom: SIZES.large,
+              textAlign: 'center',
+            }}
+          >
+            AQI
+          </Text>
+          <BarChart data={data} bgColor={bgColor} />
+
+          <Text
+            style={{
+              fontFamily: FONTS.semibold,
+              fontSize: 20,
+              color: COLORS.white,
+              marginVertical: SIZES.large,
+              textAlign: 'center',
+            }}
+          >
+            PM 2.5
+          </Text>
+          <BarChart data={pm25} bgColor={pm25Color} />
+        </>
+      )}
+
+      <HealthAdvice value={airData.aqi} />
     </ScrollView>
   );
 };

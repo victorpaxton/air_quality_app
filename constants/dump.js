@@ -3,7 +3,7 @@ const AirData = {
   country_code: 'VN',
   data: [
     {
-      aqi: 42,
+      aqi: 30,
       co: 99,
       datetime: '2023-03-15:15',
       no2: 6,
@@ -302,7 +302,7 @@ const AirData = {
       ts: 1678813200,
     },
     {
-      aqi: 80,
+      aqi: 140,
       co: 168.3,
       datetime: '2023-03-14:16',
       no2: 23.3,
