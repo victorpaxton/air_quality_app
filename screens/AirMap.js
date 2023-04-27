@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  Callout,
+  LatLng,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import {
   StyleSheet,
   View,
   Dimensions,
   Text,
   TouchableOpacity,
+  Animated,
+  Image,
 } from "react-native";
 import * as Location from "expo-location";
 import {
@@ -13,10 +20,10 @@ import {
   GooglePlacesAutocomplete,
 } from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
-import MapViewDirections from "react-native-maps-directions";
 
-const GOOGLE_API_KEY = "AIzaSyDsND-bXr0N929TOcVDGjFPrckd3cc0KBU";
+const GOOGLE_API_KEY = "AIzaSyCKAIyLUfKD6fTcrxanozIxyubP5XTmKXM";
 
+// Position
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
@@ -29,12 +36,11 @@ const INITIAL_POSITION = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-function InputAutocomplete({ label, placeholder = "", onPlaceSelected }) {
+// Search Field
+function InputAutocomplete({ /*label,*/ placeholder = "", onPlaceSelected }) {
   return (
     <>
-      <Text>{label}</Text>
       <GooglePlacesAutocomplete
-        styles={{ textInput: styles.input }}
         placeholder={placeholder}
         fetchDetails
         onPress={(data, details) => {
@@ -50,11 +56,6 @@ function InputAutocomplete({ label, placeholder = "", onPlaceSelected }) {
 }
 
 export default function AirMap() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  const [showDiretions, setShowDirections] = useState(false);
-
   const mapRef = useRef(null);
 
   const moveTo = async (position) => {
@@ -68,22 +69,6 @@ export default function AirMap() {
   };
 
   const [origin, setOrigin] = useState(null);
-  const [destination, setDestination] = useState(null);
-
-  const edgePaddingValue = 10;
-  const edgePadding = {
-    top: edgePaddingValue,
-    right: edgePaddingValue,
-    bottom: edgePaddingValue,
-    left: edgePaddingValue,
-  };
-
-  const traceRoute = () => {
-    if(origin && destination) {
-      setShowDirections(true);
-      mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
-    }
-  }
 
   const onPlaceSelected = (details, flag) => {
     const set = flag === "origin" ? setOrigin : setDestination;
@@ -115,6 +100,55 @@ export default function AirMap() {
     fetchUserLocation();
   }, []);
 
+  // Smooth Effect
+  const [showDetails, setShowDetails] = useState(false);
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: showDetails ? 1 : 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [showDetails]);
+
+  // List of Markers
+  const [markers, setMarkers] = useState([
+    {
+      latitude: 10.77217249292377,
+      longitude: 106.6578910710957,
+      image_aqi: require("../assets/images/circle.png"),
+      image_ava: require("../assets/images/moderate.png"),
+      name: "Đại học Bách Khoa",
+      aqi: 74,
+      quality: "Trung bình",
+      backgroundColor: "#ffd700",
+      showDetails: false,
+    },
+    {
+      latitude: 10.87452977667352,
+      longitude: 106.80679286747724,
+      image_aqi: require("../assets/images/circle_2.png"),
+      image_ava: require("../assets/images/unhealthy.png"),
+      name: "Đại học Khoa học - Tự nhiên",
+      aqi: 117,
+      quality: "Không tốt",
+      backgroundColor: "#cd5c5c",
+      showDetails: false,
+    },
+    {
+      latitude: 10.872106446655197,
+      longitude: 106.80207218001232,
+      image_aqi: require("../assets/images/circle_3.png"),
+      image_ava: require("../assets/images/good.png"),
+      name: "Đại học Khoa học Xã hội và Nhân văn",
+      aqi: 45,
+      quality: "Tốt",
+      backgroundColor: "#98fb98",
+      showDetails: false,
+    },
+  ]);
+
   return (
     <View style={styles.container}>
       <MapView
@@ -122,54 +156,100 @@ export default function AirMap() {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={INITIAL_POSITION}
+        onPress={() => setShowDetails(false)}
       >
-        {origin && <Marker coordinate={origin} />}
-        {destination && <Marker coordinate={destination} />}
-        {showDiretions && origin && destination && <MapViewDirections
-          origin={origin}
-          destination={destination}
-          apikey={GOOGLE_API_KEY}
-          strokeColor="#6644ff"
-          strokeWidth={4}
-        />}
+        {markers.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+            image={marker.image_aqi}
+            onPress={() => {
+              // Cập nhật giá trị của thuộc tính showDetails cho đối tượng Marker tương ứng
+              setMarkers((prevMarkers) =>
+              prevMarkers.map((m, i) =>
+                i === index ? { ...m, showDetails: true } : { ...m, showDetails: false }
+                )
+              );
+              setShowDetails(true);
+            }}
+
+          ></Marker>
+        ))}
       </MapView>
+
+      {markers
+        .filter((marker) => marker.showDetails)
+        .map((marker, index) => (
+          <Animated.View
+            key={index}
+            style={[styles.callout, { opacity: fadeAnim }]}
+          >
+            <View style={styles.callout}>
+              <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+                {marker.name}
+              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: marker.backgroundColor,
+                  margin: 10,
+                  borderRadius: 8,
+                }}
+              >
+                <Image source={marker.image_ava} style={styles.img} />
+                <View style={{ flex: 0.3, justifyContent: "center", left: 10 }}>
+                  <Text style={{ fontSize: 30, opacity: 0.5 }}>
+                    {marker.aqi}
+                  </Text>
+                  <Text style={{ opacity: 0.5 }}>AQI Mỹ</Text>
+                </View>
+                <View style={{ flex: 0.3 }}>
+                  <Text style={{ opacity: 0.5 }}>{marker.quality}</Text>
+                </View>
+              </View>
+            </View>
+          </Animated.View>
+        ))}
+
       <View style={styles.searchContainer}>
         <InputAutocomplete
-          label="Origin:"
-          placeholder="Enter origin"
+          // label="Origin:"
+          placeholder="Enter your address"
           onPlaceSelected={(details) => {
             onPlaceSelected(details, "origin");
           }}
         />
-        <InputAutocomplete
-          label="Destination:"
-          placeholder="Enter destination"
-          onPlaceSelected={(details) => {
-            onPlaceSelected(details, "destination");
-          }}
-        />
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={traceRoute}
-        >
-          <Text style={styles.buttonText}>Trace Route</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // Overview of Map
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+    zIndex: -1,
+    width: "100%",
+    height: "100%",
+    borderColor: "transparent",
   },
+
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
+
+  // Input Search Field
   searchContainer: {
     position: "absolute",
     width: "90%",
@@ -179,24 +259,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 4,
-    padding: 6,
     borderRadius: 8,
     top: Constants.statusBarHeight,
   },
-  input: {
-    borderColor: "#888",
-    borderWidth: 1,
-  },
-  button: {
-    backgroundColor: "#bbb",
-    paddingVertical: 6,
-    marginTop: 5,
+
+  // Marker
+  callout: {
+    position: "absolute",
+    bottom: "5%",
+    left: "5%",
+    right: "5%",
+    backgroundColor: "#fff",
     borderRadius: 8,
-    width: "30%",
-    position: "relative",
-    left: "35%",
   },
-  buttonText: {
-    textAlign: "center",
-  }
+  img: {
+    flex: 0.4,
+    width: 100,
+    height: 100,
+  },
 });
